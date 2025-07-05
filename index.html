@@ -3,25 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SCR0LL T0 TH3 B0TT0M</title>
+  <title>Play And Win To Join</title>
   <style>
     body {
-      background-color: black;
-      color: white;
-      font-family: 'Cursive', 'Brush Script MT', cursive;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f4f4f4;
       margin: 0;
-      padding: 20px;
-      white-space: pre-wrap;
-      font-size: 1.5rem;
+      padding: 0;
+    }
+    .game-container {
+      margin-top: 50px;
+    }
+    .card {
+      width: 150px;
+      height: 150px;
+      margin: 20px auto;
+      background-color: red;
+      border: 5px solid #000;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .card.flipped {
+      background-color: blue;
+      transform: rotateY(180deg);
     }
   </style>
 </head>
 <body>
-  SCR0LL T0 TH3 B0TT0M F0R 4 CH4NC3
+  <h1>Ddakji Game</h1>
+  <p>Click the card to flip it!</p>
+  <div class="game-container">
+    <div class="card" id="ddakji-card">Red</div>
+  </div>
 
-  <!-- Add a ton of spaces/newlines -->
-  <div style="height: 18000px;"></div>
+  <script>
+    const card = document.getElementById('ddakji-card');
 
-  EMAIL AN0NYM0U5.H4X.144@GMAIL.COM
+    card.addEventListener('click', () => {
+      card.classList.toggle('flipped');
+      card.textContent = card.classList.contains('flipped') ? 'Blue' : 'Red';
+    });
+  </script>
 </body>
 </html>
