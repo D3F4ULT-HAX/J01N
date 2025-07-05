@@ -2,55 +2,85 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Play And Win To Join</title>
   <style>
     body {
+      background-color: #111;
+      color: #fff;
       font-family: Arial, sans-serif;
       text-align: center;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 0;
+      padding-top: 50px;
     }
-    .game-container {
-      margin-top: 50px;
+    h1 {
+      font-size: 32px;
+      margin-bottom: 40px;
     }
-    .card {
-      width: 150px;
-      height: 150px;
-      margin: 20px auto;
-      background-color: red;
-      border: 5px solid #000;
-      border-radius: 10px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      font-size: 24px;
-      font-weight: bold;
+    #gameArea {
+      position: relative;
+      width: 400px;
+      height: 300px;
+      margin: 0 auto;
+      border: 2px solid #fff;
+      background-color: #222;
+      overflow: hidden;
+    }
+    #targetButton {
+      position: absolute;
+      padding: 10px 20px;
+      background-color: limegreen;
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
-      transition: transform 0.3s ease;
-    }
-    .card.flipped {
-      background-color: blue;
-      transform: rotateY(180deg);
+      font-size: 16px;
+      font-weight: bold;
+      color: #000;
     }
   </style>
 </head>
 <body>
-  <h1>Ddakji Game</h1>
-  <p>Click the card to flip it!</p>
-  <div class="game-container">
-    <div class="card" id="ddakji-card">Red</div>
+
+  <h1>Play And Win To Join</h1>
+  <div id="gameArea">
+    <button id="targetButton">Click Me!</button>
   </div>
 
   <script>
-    const card = document.getElementById('ddakji-card');
+    const gameArea = document.getElementById('gameArea');
+    const button = document.getElementById('targetButton');
+    let clicks = 0;
+    const requiredClicks = 5; // How many times to win
+    const redirectURL = "https://example.com"; // Change this to your desired site
 
-    card.addEventListener('click', () => {
-      card.classList.toggle('flipped');
-      card.textContent = card.classList.contains('flipped') ? 'Blue' : 'Red';
+    function moveButton() {
+      const areaWidth = gameArea.offsetWidth;
+      const areaHeight = gameArea.offsetHeight;
+      const btnWidth = button.offsetWidth;
+      const btnHeight = button.offsetHeight;
+
+      const maxX = areaWidth - btnWidth;
+      const maxY = areaHeight - btnHeight;
+
+      const randomX = Math.floor(Math.random() * maxX);
+      const randomY = Math.floor(Math.random() * maxY);
+
+      button.style.left = randomX + 'px';
+      button.style.top = randomY + 'px';
+    }
+
+    button.addEventListener('click', () => {
+      clicks++;
+      if (clicks >= requiredClicks) {
+        button.innerText = "You Win!";
+        setTimeout(() => {
+          window.location.href = redirectURL;
+        }, 1000);
+      } else {
+        moveButton();
+      }
     });
+
+    moveButton(); // Start moving
   </script>
+
 </body>
 </html>
