@@ -9,31 +9,37 @@
       color: #fff;
       font-family: Arial, sans-serif;
       text-align: center;
-      padding-top: 50px;
+      padding-top: 40px;
     }
     h1 {
-      font-size: 32px;
-      margin-bottom: 40px;
+      font-size: 30px;
+      margin-bottom: 20px;
     }
     #gameArea {
-      position: relative;
-      width: 400px;
-      height: 300px;
       margin: 0 auto;
-      border: 2px solid #fff;
-      background-color: #222;
-      overflow: hidden;
+      width: 300px;
+      height: 300px;
+      position: relative;
     }
-    #targetButton {
-      position: absolute;
-      padding: 10px 20px;
-      background-color: limegreen;
-      border: none;
-      border-radius: 8px;
+    #ddakji {
+      width: 150px;
+      height: 150px;
+      background-color: red;
+      margin: 0 auto;
+      transform-style: preserve-3d;
+      transition: transform 0.8s;
+      border: 3px solid #fff;
+      border-radius: 12px;
       cursor: pointer;
-      font-size: 16px;
-      font-weight: bold;
-      color: #000;
+      position: relative;
+      top: 50px;
+    }
+    .flipped {
+      transform: rotateY(180deg);
+    }
+    #result {
+      margin-top: 30px;
+      font-size: 20px;
     }
   </style>
 </head>
@@ -41,46 +47,40 @@
 
   <h1>Play And Win To Join</h1>
   <div id="gameArea">
-    <button id="targetButton">Click Me!</button>
+    <div id="ddakji" title="Click to flip!"></div>
   </div>
+  <div id="result"></div>
 
   <script>
-    const gameArea = document.getElementById('gameArea');
-    const button = document.getElementById('targetButton');
-    let clicks = 0;
-    const requiredClicks = 5; // How many times to win
-    const redirectURL = "https://example.com"; // Change this to your desired site
+    const ddakji = document.getElementById('ddakji');
+    const result = document.getElementById('result');
+    const redirectURL = "https://example.com"; // Change this to your destination
+    let hasWon = false;
 
-    function moveButton() {
-      const areaWidth = gameArea.offsetWidth;
-      const areaHeight = gameArea.offsetHeight;
-      const btnWidth = button.offsetWidth;
-      const btnHeight = button.offsetHeight;
+    ddakji.addEventListener('click', () => {
+      if (hasWon) return;
 
-      const maxX = areaWidth - btnWidth;
-      const maxY = areaHeight - btnHeight;
+      // Flip animation
+      ddakji.classList.add('flipped');
 
-      const randomX = Math.floor(Math.random() * maxX);
-      const randomY = Math.floor(Math.random() * maxY);
+      // Randomly determine win or lose
+      const win = Math.random() < 0.5;
 
-      button.style.left = randomX + 'px';
-      button.style.top = randomY + 'px';
-    }
-
-    button.addEventListener('click', () => {
-      clicks++;
-      if (clicks >= requiredClicks) {
-        button.innerText = "You Win!";
-        setTimeout(() => {
-          window.location.href = redirectURL;
-        }, 1000);
-      } else {
-        moveButton();
-      }
+      setTimeout(() => {
+        if (win) {
+          result.textContent = "You flipped it! You win!";
+          hasWon = true;
+          setTimeout(() => {
+            window.location.href = redirectURL;
+          }, 1500);
+        } else {
+          result.textContent = "Missed! Try again.";
+          ddakji.classList.remove('flipped');
+        }
+      }, 800);
     });
-
-    moveButton(); // Start moving
   </script>
 
 </body>
 </html>
+
